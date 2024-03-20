@@ -34,14 +34,6 @@ label {
   margin-top: 10px;
 }
 
-h1 {
-  color: $color1;
-}
-
-h1 span {
-  color: #f7f7f7;
-}
-
 .logo-img {
   content: url("@assets/images/bee.png");
   width: 30vw;
@@ -91,9 +83,5 @@ input:not(is-invalid):focus {
 @media only screen and (max-width: 770px) {
   .card-container.card {
     width: auto;
-  }
-
-  .mobile-hidden {
-    display: none !important;
   }
 }

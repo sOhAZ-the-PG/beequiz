@@ -1,0 +1,13 @@
+<nav class="clearfix">
+  <ul>
+    <li>
+      <h1>B<span>ee</span> Q<span>uiz</span></h1>
+    </li>
+    <li>
+      <a>{{ storageService.getUser()!.username }}</a>
+    </li>
+    <li>
+      <a class="btn" style="margin-left: 20px" (click)="logout()">Logout</a>
+    </li>
+  </ul>
+</nav>
