@@ -36,6 +36,7 @@ a {
   background-color: $color1;
   color: $color2 !important;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 .btn:hover {
   color: $color1 !important;
