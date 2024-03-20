@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ValidationErrorComponent } from './validation-error/validation-error.component';
+import { ValidationErrorComponent } from '@pages/login/validation-error/validation-error.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { StorageService } from '@app/services/storage.service';
+import { StorageService } from '@services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +13,7 @@ import { StorageService } from '@app/services/storage.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  constructor(private storageService: StorageService, private router: Router) {
-    if (this.storageService.isLoggedIn()) this.router.navigate(['/category']);
-  }
+  constructor(private storageService: StorageService, private router: Router) {}
 
   form: any = {
     username: null,
@@ -28,7 +26,7 @@ export class LoginComponent {
     console.log('Username:', username);
     console.log('Password:', password);
 
-    this.storageService.saveUser({ username: 'test' });
+    this.storageService.saveUser({ username: username });
     this.router.navigate(['/category']);
   }
 }

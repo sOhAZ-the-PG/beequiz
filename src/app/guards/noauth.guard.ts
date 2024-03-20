@@ -1,17 +1,17 @@
+import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { StorageService } from '@services/storage.service';
-import { inject } from '@angular/core';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const noauthGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const storageService = inject(StorageService);
   const logged = storageService.isLoggedIn();
-  if (logged) {
+  if (!logged) {
     // Authorized so return true
     return true;
   }
 
-  // Not logged in , redirect to login page
-  router.navigate(['/login']);
+  // Already logged in , redirect to category page
+  router.navigate(['/category']);
   return false;
 };

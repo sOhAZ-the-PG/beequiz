@@ -1,0 +1,80 @@
+$color1: #fbe394;
+$color2: #1c1b33;
+
+.card-container.card {
+  width: 50vw;
+  height: auto;
+  max-height: 70vh;
+  overflow-y: scroll;
+  padding: 35px 35px;
+}
+
+.card {
+  background-color: $color2;
+  color: #f7f7f7;
+  padding: 25px 25px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 10px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.answer-group {
+  width: 100%;
+}
+
+.btn {
+  padding: 15px 25px;
+  margin-top: 20px; /* Adjust the value as needed */
+  background-color: $color2;
+  color: $color1;
+  border-color: $color1;
+  transition: all 0.3s ease;
+  text-align: start;
+}
+.btn:hover {
+  background-color: $color1;
+  color: $color2;
+  border-color: $color2;
+}
+.btn.active {
+  background-color: $color1;
+  color: $color2;
+  border-color: $color2;
+}
+
+.nav-btn {
+  background-color: $color1;
+  color: $color2;
+  border: none;
+  box-shadow: 0 2px 2px #888888;
+  padding: 15px 20px;
+  margin: 10px;
+  border-radius: 50px;
+}
+.nav-btn:hover {
+  background-color: $color2;
+  color: $color1;
+  border-color: $color2;
+}
+
+.answer-btn {
+  width: 80%;
+}
+
+@media only screen and (max-width: 770px) {
+  .card-container.card {
+    width: auto;
+    max-width: 90vw;
+  }
+
+  .nav-btn {
+    display: none;
+  }
+
+  .answer-btn {
+    width: 70vw;
+  }
+}

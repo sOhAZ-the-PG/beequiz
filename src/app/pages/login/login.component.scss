@@ -84,4 +84,8 @@ input:not(is-invalid):focus {
   .card-container.card {
     width: auto;
   }
+
+  .mobile-hidden {
+    display: none !important;
+  }
 }
