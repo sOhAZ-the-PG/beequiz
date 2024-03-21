@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from '@app/models/category';
+import { QuestionService } from '@app/services/question.service';
 import { StorageService } from '@services/storage.service';
 import { NavbarComponent } from '@shared/components/navbar/navbar.component';
 
@@ -13,28 +14,21 @@ import { NavbarComponent } from '@shared/components/navbar/navbar.component';
   styleUrl: './category.component.scss',
 })
 export class CategoryComponent {
-  constructor(private storageService: StorageService, private router: Router) {}
+  categories: Category[] = [];
 
-  categories: Category[] = [
-    {
-      questionCategoryId: 'dd543a8a-298b-4390-9bd4-d852490e1a56',
-      title: 'ตอบคำถามการบวกลบเลขเบื้องต้น 101',
-    },
-    {
-      questionCategoryId: 'dd543a8a-298b-4390-9bd4-d852490e1a56',
-      title: 'ตอบคำถามการบวกลบเลขเบื้องต้น 102',
-    },
-    {
-      questionCategoryId: 'dd543a8a-298b-4390-9bd4-d852490e1a56',
-      title: 'ตอบคำถามการคูณหารเลขเบื้องต้น 201',
-    },
-    {
-      questionCategoryId: 'dd543a8a-298b-4390-9bd4-d852490e1a56',
-      title: 'ตอบคำถามการคูณหารเลขเบื้องต้น 202',
-    },
-  ];
+  constructor(
+    private questionSerivce: QuestionService,
+    private storageService: StorageService,
+    private router: Router
+  ) {
+    this.questionSerivce.getCategory().subscribe({
+      next: (data: Category[]) => {
+        this.categories = data;
+      },
+    });
+  }
 
-  goToQuiz(category: any) {
+  goToQuiz(category: Category) {
     this.storageService.saveCategory(category);
     this.router.navigate(['/quiz']);
   }

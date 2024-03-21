@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { StorageService } from '@services/storage.service';
+import { QuestionService } from '@services/question.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,11 @@ import { StorageService } from '@services/storage.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  constructor(private storageService: StorageService, private router: Router) {}
+  constructor(
+    private questionSerivce: QuestionService,
+    private storageService: StorageService,
+    private router: Router
+  ) {}
 
   form: any = {
     username: null,
@@ -26,7 +32,12 @@ export class LoginComponent {
     console.log('Username:', username);
     console.log('Password:', password);
 
-    this.storageService.saveUser({ username: username });
-    this.router.navigate(['/category']);
+    this.questionSerivce.login(username, password).subscribe({
+      next: (data) => {
+        this.storageService.saveUser(data);
+        this.router.navigate(['/category']);
+      },
+      error: (err) => {},
+    });
   }
 }

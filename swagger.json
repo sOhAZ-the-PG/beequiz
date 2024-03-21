@@ -1,0 +1,322 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Questoinnaire.Api",
+    "description": "Questoinnaire Api Last build date 03/19/2024 02:42:28 <br/>\r\n                                        Env Production <br/>",
+    "version": " 1.0"
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginCommandBase"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginCommandBase"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginCommandBase"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/questions/categories": {
+      "get": {
+        "tags": ["Question"],
+        "summary": "Get Question Category List",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QuestionListResponse"
+                  }
+                },
+                "example": [
+                  {
+                    "questionCategoryId": "e0f16ef8-5600-4e5b-af0b-23894a42798e",
+                    "title": "ตอบคำถามการคูณหารเลขเบื้องต้น 101"
+                  },
+                  {
+                    "questionCategoryId": "8b23f84e-9044-40d7-845e-eae7cc344743",
+                    "title": "ตอบคำถามการคูณหารเลขเบื้องต้น 102"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/questions/categories/{id}": {
+      "get": {
+        "tags": ["Question"],
+        "summary": "Get Question By Category Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionDetailResponse"
+                },
+                "example": {
+                  "questionCategoryId": "6b73e377-4590-4cea-bc32-a4447668a203",
+                  "title": "ตอบคำถามการบวกลบเลขเบื้องต้น 101",
+                  "totalQuestion": 0,
+                  "level": "Basic",
+                  "timeLimitOfMinuteUnit": 10,
+                  "questionInfo": [
+                    {
+                      "questionId": "fb329caf-f820-4068-a962-49246cf3a4f3",
+                      "sequence": 1,
+                      "title": "ข้อใดได้ผลรวม 20",
+                      "questionAnswerInfo": [
+                        {
+                          "questionAnswerId": "bd277cb3-44bf-4368-9794-e4f39106f05c",
+                          "sequence": 1,
+                          "answer": "5+5+5+5"
+                        },
+                        {
+                          "questionAnswerId": "9a395d33-1a19-4d28-ab28-47379418fefd",
+                          "sequence": 2,
+                          "answer": "-5-5+5+10"
+                        },
+                        {
+                          "questionAnswerId": "af3a0a54-4cac-4bed-852f-2adddf77ebd1",
+                          "sequence": 3,
+                          "answer": "-6-1+5+10"
+                        },
+                        {
+                          "questionAnswerId": "c60cece6-882b-4b04-92fc-9eedec4fbf48",
+                          "sequence": 4,
+                          "answer": "-1-8+10"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/questions/submit-assignment": {
+      "post": {
+        "tags": ["Question"],
+        "summary": "Submit Assignment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionDetailResponse"
+                },
+                "example": {
+                  "questionCategoryId": "643e0577-6e0c-49f5-b069-56a14884a5f0",
+                  "title": "ตอบคำถามการบวกลบเลขเบื้องต้น 101",
+                  "totalQuestion": 0,
+                  "level": "Basic",
+                  "timeLimitOfMinuteUnit": 10,
+                  "questionInfo": [
+                    {
+                      "questionId": "0e488cb0-d2b3-4606-ad9d-498b88f39153",
+                      "sequence": 1,
+                      "title": "ข้อใดได้ผลรวม 20",
+                      "questionAnswerInfo": [
+                        {
+                          "questionAnswerId": "449ad0b5-c131-4681-a0e8-776e16df86f5",
+                          "sequence": 1,
+                          "answer": "5+5+5+5"
+                        },
+                        {
+                          "questionAnswerId": "b686f201-7a53-4197-b900-e9d178cf05ce",
+                          "sequence": 2,
+                          "answer": "-5-5+5+10"
+                        },
+                        {
+                          "questionAnswerId": "ccab6b6c-069f-4c27-a638-bf96f7bf07a2",
+                          "sequence": 3,
+                          "answer": "-6-1+5+10"
+                        },
+                        {
+                          "questionAnswerId": "3905562d-18b2-4e76-9739-43caa8ce1437",
+                          "sequence": 4,
+                          "answer": "-1-8+10"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoginCommandBase": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionAnswerInfo": {
+        "type": "object",
+        "properties": {
+          "questionAnswerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "answer": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionDetailResponse": {
+        "type": "object",
+        "properties": {
+          "questionCategoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalQuestion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "level": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeLimitOfMinuteUnit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questionInfo": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionInfo"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionInfo": {
+        "type": "object",
+        "properties": {
+          "questionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "questionAnswerInfo": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionAnswerInfo"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionListResponse": {
+        "type": "object",
+        "properties": {
+          "questionCategoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Standard Authorization header using the Bearer scheme (JWT). Example: \"Bearer {token}\"",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}

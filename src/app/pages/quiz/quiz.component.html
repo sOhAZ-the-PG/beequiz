@@ -10,17 +10,22 @@
     <div class="d-flex flex-column align-items-center justify-content-center">
       <h4>{{ categoryTitle }}</h4>
       <div class="card card-container">
-        <h6>ข้อที่ 1 ข้อใดถูกต้อง</h6>
+        <h6>ข้อที่ {{ question.sequence }} {{ question.title }}</h6>
         <div
           class="d-flex flex-column answer-group align-items-center justify-content-center"
         >
           <button
-            *ngFor="let answer of answers; let i = index"
-            (click)="setAnswer(answer)"
-            [ngClass]="{ active: answer === selectedAnswer }"
+            *ngFor="
+              let answerInfo of question.questionAnswerInfo;
+              let i = index
+            "
+            (click)="setAnswer(answerInfo.questionAnswerId)"
+            [ngClass]="{
+              active: answerInfo.questionAnswerId === selectedAnswer
+            }"
             class="answer-btn btn"
           >
-            {{ i + 1 }}. {{ answer }}
+            {{ i + 1 }}. {{ answerInfo.answer }}
           </button>
         </div>
       </div>
