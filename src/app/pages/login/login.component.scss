@@ -80,6 +80,12 @@ input:not(is-invalid):focus {
   float: right;
 }
 
+@media only screen and (max-width: 900px) {
+  .card-container.card {
+    width: 30vw;
+  }
+}
+
 @media only screen and (max-width: 770px) {
   .card-container.card {
     width: auto;
