@@ -4,6 +4,7 @@ import { User } from '@app/models/user';
 import { Observable } from 'rxjs';
 import { StorageService } from './storage.service';
 import { Category } from '@app/models/category';
+import { QuestionCategory } from '@app/models/question';
 
 const API_URL = 'http://localhost:3001';
 const httpOptions = {
@@ -34,5 +35,17 @@ export class QuestionService {
         Authorization: `Bearer ${this.storageService.getUser()!.accessToken}`,
       }),
     });
+  }
+
+  getQuestionList(categoryId: string): Observable<QuestionCategory> {
+    return this.client.get<QuestionCategory>(
+      API_URL + '/v1/questions/categories/' + categoryId,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.storageService.getUser()!.accessToken}`,
+        }),
+      }
+    );
   }
 }

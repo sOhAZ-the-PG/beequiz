@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { QuestionInfo } from '@app/models/question';
+import { QuestionCategory, QuestionInfo } from '@app/models/question';
+import { QuestionService } from '@app/services/question.service';
 import { StorageService } from '@services/storage.service';
 import { NavbarComponent } from '@shared/components/navbar/navbar.component';
 
@@ -13,35 +14,32 @@ import { NavbarComponent } from '@shared/components/navbar/navbar.component';
   styleUrl: './quiz.component.scss',
 })
 export class QuizComponent {
-  constructor(private storageService: StorageService, private router: Router) {}
+  questions: QuestionInfo[] = [];
+  question: QuestionInfo = new QuestionInfo();
+  show: boolean = true;
 
-  question: QuestionInfo = {
-    questionId: '5aa050e0-86e1-4314-a914-981ada4f6b69',
-    sequence: 1,
-    title: 'ข้อใดได้ผลรวม 20',
-    questionAnswerInfo: [
-      {
-        questionAnswerId: 'da06ed71-c434-45ba-beb3-dd6e2d9bc961',
-        sequence: 1,
-        answer: '5+5+5+5',
-      },
-      {
-        questionAnswerId: '3a7dfa36-19ce-4d52-95ec-929fdea6fdf4',
-        sequence: 2,
-        answer: '-5-5+5+10',
-      },
-      {
-        questionAnswerId: 'a3011895-8136-488d-9a04-746cd060ef31',
-        sequence: 3,
-        answer: '-6-1+5+10',
-      },
-      {
-        questionAnswerId: '84a3b803-a5dd-4987-be77-1d162937ab50',
-        sequence: 4,
-        answer: '-1-8+10',
-      },
-    ],
-  };
+  constructor(
+    private questionSerivce: QuestionService,
+    public storageService: StorageService,
+    private router: Router
+  ) {
+    if (this.storageService.haveQuestion()) {
+      this.questions = storageService.getQuestion().questionInfo;
+      this.question = this.questions[this.currentQuiz - 1];
+    } else {
+      this.questionSerivce
+        .getQuestionList(storageService.getCategory().questionCategoryId)
+        .subscribe({
+          next: (data: QuestionCategory) => {
+            storageService.saveQuestion(data);
+            this.questions = data.questionInfo;
+            this.question = this.questions[0];
+            this.storageService.saveCurrentQuiz(1);
+            this.storageService.initAnswer(this.totalQuestion);
+          },
+        });
+    }
+  }
 
   selectedAnswer: string = '';
 
@@ -49,7 +47,38 @@ export class QuizComponent {
     return this.storageService.getCategory()!.title;
   }
 
+  get totalQuestion(): number {
+    return this.storageService.getQuestion().totalQuestion;
+  }
+
+  get currentQuiz(): number {
+    return this.storageService.getCurrentQuiz();
+  }
+
   setAnswer(answer: string) {
     this.selectedAnswer = answer;
+  }
+
+  previous() {
+    if (this.currentQuiz !== 1) {
+      this.question = this.questions[this.currentQuiz - 2];
+      this.storageService.saveCurrentQuiz(this.currentQuiz - 1);
+      this.selectedAnswer = this.storageService.getAnswerAtIndex(
+        this.currentQuiz - 1
+      );
+    }
+  }
+
+  next() {
+    if (this.currentQuiz == this.totalQuestion) {
+      //submit
+    } else {
+      this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
+      this.question = this.questions[this.currentQuiz];
+      this.storageService.saveCurrentQuiz(this.currentQuiz + 1);
+      this.selectedAnswer = this.storageService.getAnswerAtIndex(
+        this.currentQuiz - 1
+      );
+    }
   }
 }

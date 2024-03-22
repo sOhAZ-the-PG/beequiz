@@ -1,14 +1,18 @@
 <app-navbar />
 <div class="row">
-  <!-- <div class="col-md-12 d-flex align-items-center justify-content-center">
-    ตอบคำถามการบวกลบเลขเบื้องต้น 101
-  </div> -->
   <div
     class="col-md-12 d-flex align-items-center justify-content-center vh-100"
   >
-    <button class="btn nav-btn" [disabled]="true">&lt;</button>
+    <button
+      class="btn nav-btn"
+      [disabled]="currentQuiz == 1"
+      (click)="previous()"
+    >
+      &lt;
+    </button>
     <div class="d-flex flex-column align-items-center justify-content-center">
       <h4>{{ categoryTitle }}</h4>
+
       <div class="card card-container">
         <h6>ข้อที่ {{ question.sequence }} {{ question.title }}</h6>
         <div
@@ -31,6 +35,12 @@
       </div>
     </div>
 
-    <button class="btn nav-btn" [disabled]="selectedAnswer === ''">&gt;</button>
+    <button
+      class="btn nav-btn"
+      [disabled]="selectedAnswer === ''"
+      (click)="next()"
+    >
+      &gt;
+    </button>
   </div>
 </div>

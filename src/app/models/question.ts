@@ -1,21 +1,21 @@
-export interface QuestionCategory {
-  questionCategoryId: string;
-  title: string;
-  totalQuestion: number;
-  level: string;
-  timeLimitOfMinuteUnit: number;
-  questionInfo: QuestionInfo[];
+export class QuestionCategory {
+  questionCategoryId: string = '';
+  title: string = '';
+  totalQuestion: number = 0;
+  level: string = '';
+  timeLimitOfMinuteUnit: number = 0;
+  questionInfo: QuestionInfo[] = [];
 }
 
-export interface QuestionInfo {
-  questionId: string;
-  sequence: number;
-  title: string;
-  questionAnswerInfo: QuestionAnswerInfo[];
+export class QuestionInfo {
+  questionId: string = '';
+  sequence: number = 0;
+  title: string = '';
+  questionAnswerInfo: QuestionAnswerInfo[] = [];
 }
 
-export interface QuestionAnswerInfo {
-  questionAnswerId: string;
-  sequence: number;
-  answer: string;
+export class QuestionAnswerInfo {
+  questionAnswerId: string = '';
+  sequence: number = 0;
+  answer: string = '';
 }

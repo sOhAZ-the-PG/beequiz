@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { QuestionCategory } from '@app/models/question';
 import { EncryptService } from '@services/encrypt.service';
 
 @Injectable({
@@ -9,6 +10,9 @@ export class StorageService {
 
   public static readonly USER_KEY = 'user-auth';
   public static readonly CATEGORY_KEY = 'category';
+  public static readonly QUESTION_KEY = 'question';
+  public static readonly CURRENT_KEY = 'current';
+  public static readonly ANSWER_KEY = 'answer';
 
   clean(): void {
     sessionStorage.clear();
@@ -46,5 +50,53 @@ export class StorageService {
 
   public haveCategory(): boolean {
     return sessionStorage.getItem(StorageService.CATEGORY_KEY) !== null;
+  }
+
+  public saveQuestion(question: QuestionCategory): void {
+    sessionStorage.removeItem(StorageService.QUESTION_KEY);
+    sessionStorage.setItem(
+      StorageService.QUESTION_KEY,
+      JSON.stringify(question)
+    );
+  }
+
+  public getQuestion(): any {
+    const question = sessionStorage.getItem(StorageService.QUESTION_KEY);
+    return question ? JSON.parse(question) : null;
+  }
+
+  public haveQuestion(): boolean {
+    return sessionStorage.getItem(StorageService.QUESTION_KEY) !== null;
+  }
+
+  public saveCurrentQuiz(sequence: number): void {
+    sessionStorage.removeItem(StorageService.CURRENT_KEY);
+    sessionStorage.setItem(StorageService.CURRENT_KEY, sequence.toString());
+  }
+
+  public getCurrentQuiz(): any {
+    const current = sessionStorage.getItem(StorageService.CURRENT_KEY);
+    return current ? Number(current) : null;
+  }
+
+  public initAnswer(total: number): void {
+    sessionStorage.removeItem(StorageService.ANSWER_KEY);
+    let answers: string[] = new Array(total).fill('');
+    sessionStorage.setItem(StorageService.ANSWER_KEY, JSON.stringify(answers));
+  }
+
+  public saveAnswer(index: number, answer: string): void {
+    let answers = JSON.parse(
+      sessionStorage.getItem(StorageService.ANSWER_KEY)!
+    );
+    answers[index] = answer;
+    sessionStorage.setItem(StorageService.ANSWER_KEY, JSON.stringify(answers));
+  }
+
+  public getAnswerAtIndex(index: number): string {
+    let answers = JSON.parse(
+      sessionStorage.getItem(StorageService.ANSWER_KEY)!
+    );
+    return answers[index];
   }
 }
