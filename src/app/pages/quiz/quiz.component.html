@@ -3,18 +3,24 @@
   <div
     class="col-md-12 d-flex align-items-center justify-content-center vh-100"
   >
-    <button
-      class="btn nav-btn"
-      [disabled]="currentQuiz == 1"
-      (click)="previous()"
-    >
-      &lt;
-    </button>
     <div class="d-flex flex-column align-items-center justify-content-center">
-      <h4>{{ categoryTitle }}</h4>
-
+      <h6>{{ categoryTitle }}</h6>
+      <!-- <h2>{{ question.sequence }} / {{ totalQuestion }}</h2> -->
+      <div class="quiz-group">
+        <button
+          *ngFor="let id of quizIds"
+          class="btn quiz-btn"
+          (click)="goTo(id)"
+          [ngClass]="{
+            active: id === currentQuiz,
+            done: isAlreadyAnswer(id)
+          }"
+        >
+          {{ id }}
+        </button>
+      </div>
       <div class="card card-container">
-        <h6>ข้อที่ {{ question.sequence }} {{ question.title }}</h6>
+        <h5>ข้อที่ {{ question.sequence }} {{ question.title }}</h5>
         <div
           class="d-flex flex-column answer-group align-items-center justify-content-center"
         >
@@ -31,16 +37,27 @@
           >
             {{ i + 1 }}. {{ answerInfo.answer }}
           </button>
+          <div class="row nav-btn-group">
+            <button
+              class="btn col-6"
+              [disabled]="currentQuiz == 1"
+              (click)="previous()"
+            >
+              &lt; Previous
+            </button>
+            <button
+              class="btn col-6"
+              [disabled]="
+                selectedAnswer === '' ||
+                (currentQuiz === totalQuestion && isAllAnswer)
+              "
+              (click)="next()"
+            >
+              {{ currentQuiz === totalQuestion ? "Submit" : "Next &gt;" }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
-
-    <button
-      class="btn nav-btn"
-      [disabled]="selectedAnswer === ''"
-      (click)="next()"
-    >
-      &gt;
-    </button>
   </div>
 </div>

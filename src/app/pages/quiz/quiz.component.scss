@@ -9,6 +9,12 @@ $color2: #1c1b33;
   padding: 35px 35px;
 }
 
+.quiz-group {
+  display: flex;
+  max-width: 50vw;
+  overflow-y: auto;
+}
+
 .card {
   background-color: $color2;
   color: #f7f7f7;
@@ -45,16 +51,27 @@ $color2: #1c1b33;
   border-color: $color2;
 }
 
-.nav-btn {
-  background-color: $color1;
+.quiz-btn {
+  margin: 10px 5px;
+  background-color: #f7f7f7;
   color: $color2;
   border: none;
   box-shadow: 0 2px 2px #888888;
-  padding: 15px 20px;
-  margin: 10px;
-  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+  padding: 0px;
+  text-align: center;
+  border-radius: 20px;
 }
-.nav-btn:hover {
+.quiz-btn:hover {
+  background-color: $color1;
+  color: $color2;
+  border-color: $color1;
+}
+.quiz-btn.done {
+  background-color: $color1;
+}
+.quiz-btn.active {
   background-color: $color2;
   color: $color1;
   border-color: $color2;
@@ -64,17 +81,49 @@ $color2: #1c1b33;
   width: 80%;
 }
 
+.nav-btn-group {
+  width: 80%;
+}
+
+.nav-btn-group .btn {
+  background-color: $color1;
+  color: $color2;
+  text-align: center;
+  border: none;
+  border-radius: 30px;
+}
+
+.nav-btn-group .btn:hover {
+  font-weight: bold;
+}
+
+.nav-btn-group .btn:first-child {
+  background-color: $color2;
+  color: $color1;
+}
+
 @media only screen and (max-width: 770px) {
   .card-container.card {
     width: auto;
     max-width: 90vw;
   }
 
-  .nav-btn {
-    display: none;
+  .quiz-group {
+    display: flex;
+    max-width: 90vw;
+    overflow-y: auto;
+  }
+
+  .quiz-btn {
+    min-width: 40px;
+    min-height: 40px;
   }
 
   .answer-btn {
     width: 70vw;
+  }
+
+  .nav-btn-group {
+    width: 100%;
   }
 }

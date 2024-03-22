@@ -16,7 +16,9 @@ import { NavbarComponent } from '@shared/components/navbar/navbar.component';
 export class QuizComponent {
   questions: QuestionInfo[] = [];
   question: QuestionInfo = new QuestionInfo();
-  show: boolean = true;
+
+  quizIds: number[] = [];
+  selectedAnswer: string = '';
 
   constructor(
     private questionSerivce: QuestionService,
@@ -24,14 +26,23 @@ export class QuizComponent {
     private router: Router
   ) {
     if (this.storageService.haveQuestion()) {
+      this.quizIds = Array(this.totalQuestion)
+        .fill(0)
+        .map((x, i) => i + 1);
       this.questions = storageService.getQuestion().questionInfo;
       this.question = this.questions[this.currentQuiz - 1];
+      this.selectedAnswer = this.storageService.getAnswerAtIndex(
+        this.currentQuiz - 1
+      );
     } else {
       this.questionSerivce
         .getQuestionList(storageService.getCategory().questionCategoryId)
         .subscribe({
           next: (data: QuestionCategory) => {
             storageService.saveQuestion(data);
+            this.quizIds = Array(this.totalQuestion)
+              .fill(0)
+              .map((x, i) => i + 1);
             this.questions = data.questionInfo;
             this.question = this.questions[0];
             this.storageService.saveCurrentQuiz(1);
@@ -40,8 +51,6 @@ export class QuizComponent {
         });
     }
   }
-
-  selectedAnswer: string = '';
 
   get categoryTitle(): string {
     return this.storageService.getCategory()!.title;
@@ -55,8 +64,17 @@ export class QuizComponent {
     return this.storageService.getCurrentQuiz();
   }
 
+  get isAllAnswer(): boolean {
+    return this.storageService.getAnswers().indexOf('') > -1;
+  }
+
   setAnswer(answer: string) {
     this.selectedAnswer = answer;
+    this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
+  }
+
+  isAlreadyAnswer(id: number): boolean {
+    return this.storageService.getAnswerAtIndex(id - 1) !== '';
   }
 
   previous() {
@@ -81,5 +99,11 @@ export class QuizComponent {
         this.currentQuiz - 1
       );
     }
+  }
+
+  goTo(id: number) {
+    this.question = this.questions[id - 1];
+    this.storageService.saveCurrentQuiz(id);
+    this.selectedAnswer = this.storageService.getAnswerAtIndex(id - 1);
   }
 }

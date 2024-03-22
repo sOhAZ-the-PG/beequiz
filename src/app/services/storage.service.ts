@@ -99,4 +99,8 @@ export class StorageService {
     );
     return answers[index];
   }
+
+  public getAnswers(): any {
+    return JSON.parse(sessionStorage.getItem(StorageService.ANSWER_KEY)!);
+  }
 }
