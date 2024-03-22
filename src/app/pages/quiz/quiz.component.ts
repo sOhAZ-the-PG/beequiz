@@ -71,6 +71,7 @@ export class QuizComponent {
 
   next() {
     if (this.currentQuiz == this.totalQuestion) {
+      this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
       //submit
     } else {
       this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
