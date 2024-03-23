@@ -9,6 +9,7 @@
       <div class="quiz-group">
         <button
           *ngFor="let id of quizIds"
+          id="quiz_{{ id }}"
           class="btn quiz-btn"
           (click)="goTo(id)"
           [ngClass]="{

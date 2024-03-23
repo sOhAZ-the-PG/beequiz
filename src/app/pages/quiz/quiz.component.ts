@@ -84,6 +84,9 @@ export class QuizComponent {
       this.selectedAnswer = this.storageService.getAnswerAtIndex(
         this.currentQuiz - 1
       );
+      (
+        document.querySelector('#quiz_' + this.currentQuiz)! as HTMLElement
+      ).focus();
     }
   }
 
@@ -98,6 +101,9 @@ export class QuizComponent {
       this.selectedAnswer = this.storageService.getAnswerAtIndex(
         this.currentQuiz - 1
       );
+      (
+        document.querySelector('#quiz_' + this.currentQuiz)! as HTMLElement
+      ).focus();
     }
   }
 
