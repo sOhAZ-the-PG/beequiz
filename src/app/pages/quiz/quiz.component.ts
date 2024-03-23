@@ -17,6 +17,8 @@ export class QuizComponent {
   questions: QuestionInfo[] = [];
   question: QuestionInfo = new QuestionInfo();
 
+  progressBarWidth: number = 0;
+
   quizIds: number[] = [];
   selectedAnswer: string = '';
 
@@ -34,6 +36,18 @@ export class QuizComponent {
       this.selectedAnswer = this.storageService.getAnswerAtIndex(
         this.currentQuiz - 1
       );
+
+      let current = new Date();
+      // Do your operations
+      let expired = storageService.getExpiredTime();
+      let seconds = (expired.getTime() - current.getTime()) / 100;
+      setTimeout(() => {
+        this.progress(
+          seconds - 1,
+          6000,
+          document.querySelector('#progressBar') as HTMLElement
+        );
+      }, 1000);
     } else {
       this.questionSerivce
         .getQuestionList(storageService.getCategory().questionCategoryId)
@@ -47,8 +61,27 @@ export class QuizComponent {
             this.question = this.questions[0];
             this.storageService.saveCurrentQuiz(1);
             this.storageService.initAnswer(this.totalQuestion);
+            let expired = storageService.getQuestion().timeLimitOfMinuteUnit;
+            storageService.setExpiredTime(expired);
+            setTimeout(() => {
+              this.progress(
+                expired * 600 - 1,
+                expired * 600,
+                document.querySelector('#progressBar') as HTMLElement
+              );
+            }, 1000);
           },
         });
+    }
+  }
+
+  progress(timeleft: number, timetotal: number, element: HTMLElement) {
+    this.progressBarWidth = (timeleft * element.offsetWidth) / timetotal;
+
+    if (timeleft > 0) {
+      setTimeout(() => {
+        this.progress(timeleft - 1, timetotal, element);
+      }, 100);
     }
   }
 

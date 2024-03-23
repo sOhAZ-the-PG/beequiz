@@ -21,6 +21,9 @@
         </button>
       </div>
       <div class="card card-container">
+        <div id="progressBar">
+          <div class="bar" [style.width.px]="progressBarWidth"></div>
+        </div>
         <h5>ข้อที่ {{ question.sequence }} {{ question.title }}</h5>
         <div
           class="d-flex flex-column answer-group align-items-center justify-content-center"
