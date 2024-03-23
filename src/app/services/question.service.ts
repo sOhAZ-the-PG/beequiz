@@ -15,6 +15,9 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class QuestionService {
+  submit(answers: any) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     private client: HttpClient,
     private storageService: StorageService
