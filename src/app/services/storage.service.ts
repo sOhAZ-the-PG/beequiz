@@ -113,17 +113,17 @@ export class StorageService {
     sessionStorage.removeItem(StorageService.TIMER_KEY);
     sessionStorage.setItem(
       StorageService.TIMER_KEY,
-      //this.encryptService.encrypt(
-      newDateObj.toDateString() + ' ' + newDateObj.toTimeString()
-      //)
+      this.encryptService.encrypt(
+        newDateObj.toDateString() + ' ' + newDateObj.toTimeString()
+      )
     );
   }
 
   public getExpiredTime(): Date {
     const date = new Date(
-      // this.encryptService.decrypt(
-      sessionStorage.getItem(StorageService.TIMER_KEY)!
-      //)
+      this.encryptService.decrypt(
+        sessionStorage.getItem(StorageService.TIMER_KEY)!
+      )
     );
     return date;
   }
