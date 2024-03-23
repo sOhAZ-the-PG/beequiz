@@ -13,7 +13,6 @@ export class StorageService {
   public static readonly QUESTION_KEY = 'question';
   public static readonly CURRENT_KEY = 'current';
   public static readonly ANSWER_KEY = 'answer';
-  public static readonly TIMER_KEY = 'timer';
 
   clean(): void {
     sessionStorage.clear();
@@ -70,6 +69,10 @@ export class StorageService {
     return sessionStorage.getItem(StorageService.QUESTION_KEY) !== null;
   }
 
+  public removeQuestion(): void {
+    sessionStorage.removeItem(StorageService.QUESTION_KEY);
+  }
+
   public saveCurrentQuiz(sequence: number): void {
     sessionStorage.removeItem(StorageService.CURRENT_KEY);
     sessionStorage.setItem(StorageService.CURRENT_KEY, sequence.toString());
@@ -106,25 +109,23 @@ export class StorageService {
   }
 
   public setExpiredTime(minute: number): void {
-    var currentDateObj = new Date();
-    var numberOfMlSeconds = currentDateObj.getTime();
-    var addMlSeconds = minute * 60 * 1000;
-    var newDateObj = new Date(numberOfMlSeconds + addMlSeconds);
-    sessionStorage.removeItem(StorageService.TIMER_KEY);
+    let currentDateObj = new Date();
+    let numberOfMlSeconds = currentDateObj.getTime();
+    let addMlSeconds = minute * 60 * 1000;
+    let newDateObj = new Date(numberOfMlSeconds + addMlSeconds);
+    let question = this.getQuestion() as QuestionCategory;
+    question.expired = this.encryptService.encrypt(
+      newDateObj.toDateString() + ' ' + newDateObj.toTimeString()
+    );
     sessionStorage.setItem(
-      StorageService.TIMER_KEY,
-      this.encryptService.encrypt(
-        newDateObj.toDateString() + ' ' + newDateObj.toTimeString()
-      )
+      StorageService.QUESTION_KEY,
+      JSON.stringify(question)
     );
   }
 
   public getExpiredTime(): Date {
-    const date = new Date(
-      this.encryptService.decrypt(
-        sessionStorage.getItem(StorageService.TIMER_KEY)!
-      )
-    );
+    let question = this.getQuestion() as QuestionCategory;
+    const date = new Date(this.encryptService.decrypt(question.expired));
     return date;
   }
 }

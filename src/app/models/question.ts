@@ -4,6 +4,7 @@ export class QuestionCategory {
   totalQuestion: number = 0;
   level: string = '';
   timeLimitOfMinuteUnit: number = 0;
+  expired: string = '';
   questionInfo: QuestionInfo[] = [];
 }
 

@@ -30,6 +30,7 @@ export class CategoryComponent {
 
   goToQuiz(category: Category) {
     this.storageService.saveCategory(category);
+    this.storageService.removeQuestion();
     this.router.navigate(['/quiz']);
   }
 }

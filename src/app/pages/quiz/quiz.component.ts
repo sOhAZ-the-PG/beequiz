@@ -82,6 +82,8 @@ export class QuizComponent {
       setTimeout(() => {
         this.progress(timeleft - 1, timetotal, element);
       }, 100);
+    } else {
+      //build answers for submit and remove question data and asnwers
     }
   }
 
