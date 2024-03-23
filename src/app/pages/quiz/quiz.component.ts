@@ -24,7 +24,7 @@ export class QuizComponent {
   selectedAnswer: string = '';
 
   isTimeUp: boolean = false;
-  finalAnswer: any;
+  finalAnswers: any;
 
   constructor(
     private questionSerivce: QuestionService,
@@ -47,11 +47,11 @@ export class QuizComponent {
       let seconds = (expired.getTime() - current.getTime()) / 100;
       setTimeout(() => {
         this.progress(
-          seconds - 1,
+          seconds,
           6000,
           document.querySelector('#progressBar') as HTMLElement
         );
-      }, 1000);
+      }, 100);
     } else {
       this.questionSerivce
         .getQuestionList(storageService.getCategory().questionCategoryId)
@@ -73,7 +73,7 @@ export class QuizComponent {
                 expired * 600,
                 document.querySelector('#progressBar') as HTMLElement
               );
-            }, 1000);
+            }, 100);
           },
         });
     }
@@ -136,7 +136,8 @@ export class QuizComponent {
     if (this.currentQuiz == this.totalQuestion) {
       this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
       //finalAnswer
-      //submit
+      this.questionSerivce.submit(this.finalAnswers);
+      this.router.navigate(['/result']);
     } else {
       this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
       this.question = this.questions[this.currentQuiz];
