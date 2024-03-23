@@ -1,0 +1,77 @@
+$color1: #fbe394;
+$color2: #1c1b33;
+
+@keyframes beedance {
+  0% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-15deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.modal-backdrop {
+  display: none;
+  background-color: #00000060;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
+
+.modal-backdrop.active {
+  display: flex !important;
+}
+
+.card-container.card {
+  width: 30vw;
+  max-height: 70vh;
+  overflow-y: scroll;
+  padding: 35px 35px;
+  text-align: center;
+  align-items: center;
+}
+
+.logo-img {
+  content: url("@assets/images/bee.png");
+  width: 10vw;
+  height: auto;
+  animation-name: beedance;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+.btn {
+  background-color: $color1;
+  color: $color2 !important;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 10px;
+  border-color: $color1;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: $color2;
+  color: $color1 !important;
+}
+
+@media only screen and (max-width: 770px) {
+  .card-container.card {
+    width: auto;
+    max-width: 90vw;
+  }
+
+  .logo-img {
+    width: 25vw;
+  }
+}

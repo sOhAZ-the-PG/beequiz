@@ -5,11 +5,12 @@ import { QuestionCategory, QuestionInfo } from '@app/models/question';
 import { QuestionService } from '@app/services/question.service';
 import { StorageService } from '@services/storage.service';
 import { NavbarComponent } from '@shared/components/navbar/navbar.component';
+import { TimeupComponent } from './timeup/timeup.component';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, TimeupComponent],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.scss',
 })
@@ -21,6 +22,9 @@ export class QuizComponent {
 
   quizIds: number[] = [];
   selectedAnswer: string = '';
+
+  isTimeUp: boolean = false;
+  finalAnswer: any;
 
   constructor(
     private questionSerivce: QuestionService,
@@ -83,7 +87,10 @@ export class QuizComponent {
         this.progress(timeleft - 1, timetotal, element);
       }, 100);
     } else {
-      //build answers for submit and remove question data and asnwers
+      //TODO build answers for submit and remove question data and asnwers
+      //TODO show popup time up!
+      //finalAnswer
+      this.isTimeUp = true;
     }
   }
 
@@ -128,6 +135,7 @@ export class QuizComponent {
   next() {
     if (this.currentQuiz == this.totalQuestion) {
       this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
+      //finalAnswer
       //submit
     } else {
       this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
