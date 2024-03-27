@@ -15,7 +15,7 @@ import { TimeupComponent } from './timeup/timeup.component';
   styleUrl: './quiz.component.scss',
 })
 export class QuizComponent {
-  questions: QuestionInfo[] = [];
+  questionCategory: QuestionCategory = new QuestionCategory();
   question: QuestionInfo = new QuestionInfo();
 
   progressBarWidth: number = 0;
@@ -32,10 +32,10 @@ export class QuizComponent {
     private router: Router
   ) {
     if (this.storageService.haveQuestion()) {
+      this.questionCategory = this.storageService.getQuestion();
       this.quizIds = Array(this.totalQuestion)
         .fill(0)
         .map((x, i) => i + 1);
-      this.questions = storageService.getQuestion().questionInfo;
       this.question = this.questions[this.currentQuiz - 1];
       this.selectedAnswer = this.storageService.getAnswerAtIndex(
         this.currentQuiz - 1
@@ -56,24 +56,26 @@ export class QuizComponent {
       this.questionSerivce
         .getQuestionList(storageService.getCategory().questionCategoryId)
         .subscribe({
-          next: (data: QuestionCategory) => {
-            storageService.saveQuestion(data);
-            this.quizIds = Array(this.totalQuestion)
-              .fill(0)
-              .map((x, i) => i + 1);
-            this.questions = data.questionInfo;
-            this.question = this.questions[0];
-            this.storageService.saveCurrentQuiz(1);
-            this.storageService.initAnswer(this.totalQuestion);
-            let expired = storageService.getQuestion().timeLimitOfMinuteUnit;
-            storageService.setExpiredTime(expired);
-            setTimeout(() => {
-              this.progress(
-                expired * 600 - 1,
-                expired * 600,
-                document.querySelector('#progressBar') as HTMLElement
-              );
-            }, 100);
+          next: (result) => {
+            if (result.isSuccess) {
+              storageService.saveQuestion(result.data!);
+              this.questionCategory = result.data!;
+              this.quizIds = Array(this.totalQuestion)
+                .fill(0)
+                .map((x, i) => i + 1);
+              this.question = this.questions[0];
+              this.storageService.saveCurrentQuiz(1);
+              this.storageService.initAnswer(this.totalQuestion);
+              let expired = storageService.getQuestion().timeLimitOfMinuteUnit;
+              storageService.setExpiredTime(expired);
+              setTimeout(() => {
+                this.progress(
+                  expired * 600 - 1,
+                  expired * 600,
+                  document.querySelector('#progressBar') as HTMLElement
+                );
+              }, 100);
+            }
           },
         });
     }
@@ -99,7 +101,11 @@ export class QuizComponent {
   }
 
   get totalQuestion(): number {
-    return this.storageService.getQuestion().totalQuestion;
+    return this.questionCategory.totalQuestion;
+  }
+
+  get questions(): QuestionInfo[] {
+    return this.questionCategory.questionInfo;
   }
 
   get currentQuiz(): number {

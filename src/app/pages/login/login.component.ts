@@ -33,9 +33,11 @@ export class LoginComponent {
     console.log('Password:', password);
 
     this.questionSerivce.login(username, password).subscribe({
-      next: (data) => {
-        this.storageService.saveUser(data);
-        this.router.navigate(['/category']);
+      next: (result) => {
+        if (result.isSuccess) {
+          this.storageService.saveUser(result.data!);
+          this.router.navigate(['/category']);
+        }
       },
       error: (err) => {},
     });

@@ -22,8 +22,10 @@ export class CategoryComponent {
     private router: Router
   ) {
     this.questionSerivce.getCategory().subscribe({
-      next: (data: Category[]) => {
-        this.categories = data;
+      next: (result) => {
+        if (result.isSuccess) {
+          this.categories = result.data!;
+        }
       },
     });
   }
