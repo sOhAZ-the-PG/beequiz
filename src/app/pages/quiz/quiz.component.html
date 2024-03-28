@@ -36,7 +36,7 @@
             "
             (click)="setAnswer(answerInfo.questionAnswerId)"
             [ngClass]="{
-              active: answerInfo.questionAnswerId === selectedAnswer
+              active: selectedAnswer.indexOf(answerInfo.questionAnswerId) > -1
             }"
             class="answer-btn btn"
           >
@@ -53,7 +53,7 @@
             <button
               class="btn col-6"
               [disabled]="
-                selectedAnswer === '' ||
+                selectedAnswer.length === 0 ||
                 (currentQuiz === totalQuestion && isAllAnswer)
               "
               (click)="next()"

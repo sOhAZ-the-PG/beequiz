@@ -24,7 +24,7 @@ export class QuizComponent {
   progressBarWidth: number = 0;
 
   quizIds: number[] = [];
-  selectedAnswer: string = '';
+  selectedAnswer: string[] = [];
 
   isTimeUp: boolean = false;
   finalAnswers: Submit = new Submit();
@@ -71,8 +71,11 @@ export class QuizComponent {
               this.question = this.questions[0];
               this.storageService.saveCurrentQuiz(1);
               this.storageService.initAnswer(this.totalQuestion);
-              let expired = storageService.getQuestion().timeLimitOfMinuteUnit;
+              let expired = this.questionCategory.timeLimitOfMinuteUnit;
               storageService.setExpiredTime(expired);
+              this.questionCategory.expired =
+                this.storageService.getQuestion().expired;
+
               setTimeout(() => {
                 this.progress(
                   expired * 600 - 1,
@@ -107,10 +110,12 @@ export class QuizComponent {
       this.finalAnswers.questionCategoryId =
         this.questionCategory.questionCategoryId;
       this.questions.forEach((q, i) => {
+        let answers: SubmitAnswer[] = [];
+        this.storageService.getAnswerAtIndex(i).forEach((a) => {
+          answers.push(new SubmitAnswer(a));
+        });
         this.finalAnswers.questions.push(
-          new SubmitQuestion(q.questionId, [
-            new SubmitAnswer(this.storageService.getAnswerAtIndex(i)),
-          ])
+          new SubmitQuestion(q.questionId, answers)
         );
       });
 
@@ -139,12 +144,15 @@ export class QuizComponent {
   }
 
   setAnswer(answer: string) {
-    this.selectedAnswer = answer;
+    const index = this.selectedAnswer.indexOf(answer);
+    if (index > -1) {
+      this.selectedAnswer.splice(index, 1);
+    } else this.selectedAnswer.push(answer);
     this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
   }
 
   isAlreadyAnswer(id: number): boolean {
-    return this.storageService.getAnswerAtIndex(id - 1) !== '';
+    return this.storageService.getAnswerAtIndex(id - 1).length > 0;
   }
 
   previous() {
@@ -167,10 +175,12 @@ export class QuizComponent {
       this.finalAnswers.questionCategoryId =
         this.questionCategory.questionCategoryId;
       this.questions.forEach((q, i) => {
+        let answers: SubmitAnswer[] = [];
+        this.storageService.getAnswerAtIndex(i).forEach((a) => {
+          answers.push(new SubmitAnswer(a));
+        });
         this.finalAnswers.questions.push(
-          new SubmitQuestion(q.questionId, [
-            new SubmitAnswer(this.storageService.getAnswerAtIndex(i)),
-          ])
+          new SubmitQuestion(q.questionId, answers)
         );
       });
       this.questionSerivce.submit(this.finalAnswers).subscribe({

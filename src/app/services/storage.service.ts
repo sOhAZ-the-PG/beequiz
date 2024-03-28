@@ -87,11 +87,11 @@ export class StorageService {
 
   public initAnswer(total: number): void {
     sessionStorage.removeItem(StorageService.ANSWER_KEY);
-    let answers: string[] = new Array(total).fill('');
+    let answers: string[] = new Array(total).fill([]);
     sessionStorage.setItem(StorageService.ANSWER_KEY, JSON.stringify(answers));
   }
 
-  public saveAnswer(index: number, answer: string): void {
+  public saveAnswer(index: number, answer: string[]): void {
     let answers = JSON.parse(
       sessionStorage.getItem(StorageService.ANSWER_KEY)!
     );
@@ -99,7 +99,7 @@ export class StorageService {
     sessionStorage.setItem(StorageService.ANSWER_KEY, JSON.stringify(answers));
   }
 
-  public getAnswerAtIndex(index: number): string {
+  public getAnswerAtIndex(index: number): string[] {
     let answers = JSON.parse(
       sessionStorage.getItem(StorageService.ANSWER_KEY)!
     );

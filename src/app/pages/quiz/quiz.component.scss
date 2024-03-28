@@ -125,6 +125,10 @@ $color2: #1c1b33;
     max-width: 90vw;
   }
 
+  h6 {
+    margin-top: 55px;
+  }
+
   .quiz-group {
     display: flex;
     max-width: 90vw;
@@ -142,5 +146,11 @@ $color2: #1c1b33;
 
   .nav-btn-group {
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 481px) {
+  h6 {
+    margin-top: 0;
   }
 }
