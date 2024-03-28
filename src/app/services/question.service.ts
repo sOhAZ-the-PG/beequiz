@@ -6,6 +6,8 @@ import { Category } from '@app/models/category';
 import { QuestionCategory } from '@app/models/question';
 import { Result } from '@app/models/result';
 import { User } from '@app/models/user';
+import { Submit } from '@app/models/submit';
+import { Score } from '@app/models/score';
 
 const API_URL = 'http://localhost:3001';
 const httpOptions = {
@@ -53,7 +55,16 @@ export class QuestionService {
     );
   }
 
-  submit(answers: any) {
-    throw new Error('Method not implemented.');
+  submit(answers: Submit): Observable<Result<Score>> {
+    return this.client.post<Result<Score>>(
+      API_URL + '/v1/questions/submit-assignment',
+      answers,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.storageService.getUser()!.accessToken}`,
+        }),
+      }
+    );
   }
 }

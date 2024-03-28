@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Submit } from '@app/models/submit';
 import { QuestionService } from '@services/question.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { QuestionService } from '@services/question.service';
 })
 export class TimeupComponent {
   @Input('show') show: boolean = false;
-  @Input('answers') answers: any;
+  @Input('answers') answers: Submit = new Submit();
 
   constructor(
     private questionSerivce: QuestionService,

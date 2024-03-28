@@ -6,6 +6,8 @@ import { QuestionService } from '@app/services/question.service';
 import { StorageService } from '@services/storage.service';
 import { NavbarComponent } from '@shared/components/navbar/navbar.component';
 import { TimeupComponent } from './timeup/timeup.component';
+import { EncryptService } from '@app/services/encrypt.service';
+import { Submit, SubmitAnswer, SubmitQuestion } from '@app/models/submit';
 
 @Component({
   selector: 'app-quiz',
@@ -24,11 +26,12 @@ export class QuizComponent {
   selectedAnswer: string = '';
 
   isTimeUp: boolean = false;
-  finalAnswers: any;
+  finalAnswers: Submit = new Submit();
 
   constructor(
     private questionSerivce: QuestionService,
     public storageService: StorageService,
+    private encryptService: EncryptService,
     private router: Router
   ) {
     if (this.storageService.haveQuestion()) {
@@ -82,6 +85,14 @@ export class QuizComponent {
   }
 
   progress(timeleft: number, timetotal: number, element: HTMLElement) {
+    if (Math.floor(timeleft) % 100 == 0) {
+      let current = new Date();
+      let expired = new Date(
+        this.encryptService.decrypt(this.questionCategory.expired)
+      );
+      timeleft = (expired.getTime() - current.getTime()) / 100;
+    }
+
     this.progressBarWidth = (timeleft * element.offsetWidth) / timetotal;
 
     if (timeleft > 0) {
@@ -89,9 +100,16 @@ export class QuizComponent {
         this.progress(timeleft - 1, timetotal, element);
       }, 100);
     } else {
-      //TODO build answers for submit and remove question data and asnwers
-      //TODO show popup time up!
-      //finalAnswer
+      this.finalAnswers.questionCategoryId =
+        this.questionCategory.questionCategoryId;
+      this.questions.forEach((q, i) => {
+        this.finalAnswers.questions.push(
+          new SubmitQuestion(q.questionId, [
+            new SubmitAnswer(this.storageService.getAnswerAtIndex(i)),
+          ])
+        );
+      });
+      this.storageService.removeAnswers();
       this.isTimeUp = true;
     }
   }
@@ -140,8 +158,17 @@ export class QuizComponent {
 
   next() {
     if (this.currentQuiz == this.totalQuestion) {
+      // Submit
       this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
-      //finalAnswer
+      this.finalAnswers.questionCategoryId =
+        this.questionCategory.questionCategoryId;
+      this.questions.forEach((q, i) => {
+        this.finalAnswers.questions.push(
+          new SubmitQuestion(q.questionId, [
+            new SubmitAnswer(this.storageService.getAnswerAtIndex(i)),
+          ])
+        );
+      });
       this.questionSerivce.submit(this.finalAnswers);
       this.router.navigate(['/result']);
     } else {

@@ -108,6 +108,10 @@ export class StorageService {
     return JSON.parse(sessionStorage.getItem(StorageService.ANSWER_KEY)!);
   }
 
+  public removeAnswers(): void {
+    sessionStorage.removeItem(StorageService.ANSWER_KEY);
+  }
+
   public setExpiredTime(minute: number): void {
     let currentDateObj = new Date();
     let numberOfMlSeconds = currentDateObj.getTime();
