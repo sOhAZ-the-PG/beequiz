@@ -9,7 +9,7 @@ import { User } from '@app/models/user';
 import { Submit } from '@app/models/submit';
 import { Score } from '@app/models/score';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://home-portal.trueddns.com:61511/v1';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
@@ -33,7 +33,7 @@ export class QuestionService {
 
   getCategory(): Observable<Result<Category[]>> {
     return this.client.get<Result<Category[]>>(
-      API_URL + '/v1/questions/categories',
+      API_URL + '/questions/categories',
       {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export class QuestionService {
 
   getQuestionList(categoryId: string): Observable<Result<QuestionCategory>> {
     return this.client.get<Result<QuestionCategory>>(
-      API_URL + '/v1/questions/categories/' + categoryId,
+      API_URL + '/questions/categories/' + categoryId,
       {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export class QuestionService {
 
   submit(answers: Submit): Observable<Result<Score>> {
     return this.client.post<Result<Score>>(
-      API_URL + '/v1/questions/submit-assignment',
+      API_URL + '/questions/submit-assignment',
       answers,
       {
         headers: new HttpHeaders({

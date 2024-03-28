@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { StorageService } from '@services/storage.service';
 import { QuestionService } from '@services/question.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ToastService } from '@app/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent {
   constructor(
     private questionSerivce: QuestionService,
     private storageService: StorageService,
+    private toastService: ToastService,
     private router: Router
   ) {}
 
@@ -37,6 +39,8 @@ export class LoginComponent {
         if (result.isSuccess) {
           this.storageService.saveUser(result.data!);
           this.router.navigate(['/category']);
+        } else {
+          this.toastService.add('Fail to log in!');
         }
       },
       error: (err) => {},

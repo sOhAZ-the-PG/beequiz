@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from '@app/models/category';
 import { QuestionService } from '@app/services/question.service';
+import { ToastService } from '@app/services/toast.service';
 import { StorageService } from '@services/storage.service';
 import { NavbarComponent } from '@shared/components/navbar/navbar.component';
 
@@ -19,6 +20,7 @@ export class CategoryComponent {
   constructor(
     private questionSerivce: QuestionService,
     private storageService: StorageService,
+    private toastService: ToastService,
     private router: Router
   ) {
     this.storageService.removeScore();
@@ -27,6 +29,8 @@ export class CategoryComponent {
       next: (result) => {
         if (result.isSuccess) {
           this.categories = result.data!;
+        } else {
+          this.toastService.add('Fail to load category!');
         }
       },
     });

@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Submit } from '@app/models/submit';
 import { StorageService } from '@app/services/storage.service';
+import { ToastService } from '@app/services/toast.service';
 import { QuestionService } from '@services/question.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class TimeupComponent {
   constructor(
     private storageService: StorageService,
     private questionSerivce: QuestionService,
+    private toastService: ToastService,
     private router: Router
   ) {}
 
@@ -28,6 +30,8 @@ export class TimeupComponent {
         if (result.isSuccess) {
           this.storageService.saveScore(result.data!);
           this.router.navigate(['/result']);
+        } else {
+          this.toastService.add('Fail to submit answer!');
         }
       },
       error: (err) => {},

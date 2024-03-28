@@ -15,4 +15,11 @@ export class NavbarComponent {
     this.storageService.clean();
     location.reload();
   }
+
+  get getName(): string {
+    let names = this.storageService.getUser()!.fullName.split(' ');
+    return (
+      names[0] + (names[1] != null ? ' ' + names[1].substring(0, 1) + '.' : '')
+    );
+  }
 }

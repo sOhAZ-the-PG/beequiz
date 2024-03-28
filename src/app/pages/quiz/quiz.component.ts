@@ -8,6 +8,7 @@ import { NavbarComponent } from '@shared/components/navbar/navbar.component';
 import { TimeupComponent } from './timeup/timeup.component';
 import { EncryptService } from '@app/services/encrypt.service';
 import { Submit, SubmitAnswer, SubmitQuestion } from '@app/models/submit';
+import { ToastService } from '@app/services/toast.service';
 
 @Component({
   selector: 'app-quiz',
@@ -32,6 +33,7 @@ export class QuizComponent {
     private questionSerivce: QuestionService,
     public storageService: StorageService,
     private encryptService: EncryptService,
+    private toastService: ToastService,
     private router: Router
   ) {
     if (this.storageService.haveQuestion()) {
@@ -78,6 +80,8 @@ export class QuizComponent {
                   document.querySelector('#progressBar') as HTMLElement
                 );
               }, 100);
+            } else {
+              this.toastService.add('Fail to load questions!');
             }
           },
         });
@@ -174,6 +178,8 @@ export class QuizComponent {
           if (result.isSuccess) {
             this.storageService.saveScore(result.data!);
             this.router.navigate(['/result']);
+          } else {
+            this.toastService.add('Fail to submit answer!');
           }
         },
         error: (err) => {},
