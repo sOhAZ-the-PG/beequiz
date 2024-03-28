@@ -109,7 +109,7 @@ export class QuizComponent {
           ])
         );
       });
-      this.storageService.removeAnswers();
+
       this.isTimeUp = true;
     }
   }
@@ -169,8 +169,15 @@ export class QuizComponent {
           ])
         );
       });
-      this.questionSerivce.submit(this.finalAnswers);
-      this.router.navigate(['/result']);
+      this.questionSerivce.submit(this.finalAnswers).subscribe({
+        next: (result) => {
+          if (result.isSuccess) {
+            this.storageService.saveScore(result.data!);
+            this.router.navigate(['/result']);
+          }
+        },
+        error: (err) => {},
+      });
     } else {
       this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
       this.question = this.questions[this.currentQuiz];

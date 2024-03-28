@@ -6,11 +6,16 @@ import { ResultComponent } from '@pages/result/result.component';
 import { authGuard } from '@app/guards/auth.guard';
 import { noauthGuard } from '@app/guards/noauth.guard';
 import { haveCategoryGuard } from '@app/guards/have-category.guard';
+import { haveScoreGuard } from './guards/have-score.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [noauthGuard] },
   { path: 'category', component: CategoryComponent, canActivate: [authGuard] },
   { path: 'quiz', component: QuizComponent, canActivate: [haveCategoryGuard] },
-  { path: 'result', component: ResultComponent },
+  {
+    path: 'result',
+    component: ResultComponent,
+    canActivate: [haveScoreGuard],
+  },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];

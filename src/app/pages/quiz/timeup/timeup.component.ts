@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Submit } from '@app/models/submit';
+import { StorageService } from '@app/services/storage.service';
 import { QuestionService } from '@services/question.service';
 
 @Component({
@@ -16,12 +17,20 @@ export class TimeupComponent {
   @Input('answers') answers: Submit = new Submit();
 
   constructor(
+    private storageService: StorageService,
     private questionSerivce: QuestionService,
     private router: Router
   ) {}
 
   submit() {
-    this.questionSerivce.submit(this.answers);
-    this.router.navigate(['/result']);
+    this.questionSerivce.submit(this.answers).subscribe({
+      next: (result) => {
+        if (result.isSuccess) {
+          this.storageService.saveScore(result.data!);
+          this.router.navigate(['/result']);
+        }
+      },
+      error: (err) => {},
+    });
   }
 }

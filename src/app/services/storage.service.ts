@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { QuestionCategory } from '@app/models/question';
+import { Score } from '@app/models/score';
 import { EncryptService } from '@services/encrypt.service';
 
 @Injectable({
@@ -13,6 +14,7 @@ export class StorageService {
   public static readonly QUESTION_KEY = 'question';
   public static readonly CURRENT_KEY = 'current';
   public static readonly ANSWER_KEY = 'answer';
+  public static readonly SCORE_KEY = 'score';
 
   clean(): void {
     sessionStorage.clear();
@@ -131,5 +133,26 @@ export class StorageService {
     let question = this.getQuestion() as QuestionCategory;
     const date = new Date(this.encryptService.decrypt(question.expired));
     return date;
+  }
+
+  public saveScore(score: Score): void {
+    sessionStorage.removeItem(StorageService.SCORE_KEY);
+    sessionStorage.setItem(
+      StorageService.SCORE_KEY,
+      this.encryptService.encrypt(JSON.stringify(score))
+    );
+  }
+
+  public getScore(): any {
+    const score = sessionStorage.getItem(StorageService.SCORE_KEY);
+    return score ? JSON.parse(this.encryptService.decrypt(score)) : null;
+  }
+
+  public haveScore(): boolean {
+    return sessionStorage.getItem(StorageService.SCORE_KEY) !== null;
+  }
+
+  public removeScore(): void {
+    sessionStorage.removeItem(StorageService.SCORE_KEY);
   }
 }

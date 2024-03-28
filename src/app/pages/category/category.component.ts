@@ -21,6 +21,8 @@ export class CategoryComponent {
     private storageService: StorageService,
     private router: Router
   ) {
+    this.storageService.removeScore();
+
     this.questionSerivce.getCategory().subscribe({
       next: (result) => {
         if (result.isSuccess) {
