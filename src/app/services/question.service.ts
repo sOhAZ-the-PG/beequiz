@@ -9,7 +9,7 @@ import { User } from '@app/models/user';
 import { Submit } from '@app/models/submit';
 import { Score } from '@app/models/score';
 
-const API_URL = 'http://home-portal.trueddns.com:61511/v1';
+const API_URL = 'https://training-homework.calllab.net/v1';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
