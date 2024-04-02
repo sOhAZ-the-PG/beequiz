@@ -14,6 +14,8 @@ import { NavbarComponent } from '@app/shared/components/navbar/navbar.component'
 export class ResultComponent {
   constructor(private storageService: StorageService, private router: Router) {
     this.storageService.removeAnswers();
+    this.storageService.removeQuestion();
+    this.storageService.removeCategory();
   }
 
   get getScore(): Score {

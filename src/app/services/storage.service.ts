@@ -54,6 +54,10 @@ export class StorageService {
     return sessionStorage.getItem(StorageService.CATEGORY_KEY) !== null;
   }
 
+  public removeCategory(): void {
+    sessionStorage.removeItem(StorageService.CATEGORY_KEY);
+  }
+
   public saveQuestion(question: QuestionCategory): void {
     sessionStorage.removeItem(StorageService.QUESTION_KEY);
     sessionStorage.setItem(
