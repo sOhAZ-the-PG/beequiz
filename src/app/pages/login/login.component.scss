@@ -72,12 +72,19 @@ input:not(is-invalid):focus {
   transition: all 0.3s ease;
 }
 .btn:hover {
-  color: $color1;
-  border-color: $color1;
+  color: $color2;
+  background-color: $color1;
 }
 
 .align-right {
   float: right;
+}
+
+@media (pointer: fine) {
+  .btn:hover {
+    color: $color1;
+    border-color: $color1;
+  }
 }
 
 @media only screen and (max-width: 900px) {
@@ -88,7 +95,17 @@ input:not(is-invalid):focus {
 
 @media only screen and (max-width: 770px) {
   .card-container.card {
-    width: auto;
+    width: 55dvw;
+  }
+
+  .mobile-hidden {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 481px) {
+  .card-container.card {
+    width: 80dvw;
   }
 
   .mobile-hidden {
