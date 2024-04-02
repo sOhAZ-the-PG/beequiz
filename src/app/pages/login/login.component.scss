@@ -36,7 +36,7 @@ label {
 
 .logo-img {
   content: url("@assets/images/bee.png");
-  width: 30vw;
+  width: 30dvw;
   height: auto;
   animation-name: beedance;
   animation-duration: 4s;
@@ -44,7 +44,7 @@ label {
 }
 
 .card-container.card {
-  width: 25vw;
+  width: 25dvw;
   height: auto;
   padding: 35px 35px;
 }
@@ -82,7 +82,7 @@ input:not(is-invalid):focus {
 
 @media only screen and (max-width: 900px) {
   .card-container.card {
-    width: 30vw;
+    width: 30dvw;
   }
 }
 
