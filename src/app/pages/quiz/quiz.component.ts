@@ -140,7 +140,11 @@ export class QuizComponent {
   }
 
   get isAllAnswer(): boolean {
-    return this.storageService.getAnswers().indexOf('') > -1;
+    let answers = this.storageService.getAnswers();
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i].length === 0) return false;
+    }
+    return true;
   }
 
   setAnswer(answer: string) {

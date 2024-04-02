@@ -53,8 +53,9 @@
             <button
               class="btn col-6"
               [disabled]="
-                selectedAnswer.length === 0 ||
-                (currentQuiz === totalQuestion && isAllAnswer)
+                currentQuiz !== totalQuestion
+                  ? selectedAnswer.length === 0
+                  : !isAllAnswer
               "
               (click)="next()"
             >
