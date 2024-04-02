@@ -31,9 +31,6 @@ export class LoginComponent {
   onSubmit() {
     const { username, password } = this.form;
 
-    console.log('Username:', username);
-    console.log('Password:', password);
-
     this.questionSerivce.login(username, password).subscribe({
       next: (result) => {
         if (result.isSuccess) {
@@ -43,7 +40,11 @@ export class LoginComponent {
           this.toastService.add('Fail to log in!');
         }
       },
-      error: (err) => {},
+      error: (err) => {
+        if (err.status === 401) {
+          this.toastService.add('Incorrect username or password!');
+        }
+      },
     });
   }
 }

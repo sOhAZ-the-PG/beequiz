@@ -87,13 +87,6 @@ export class QuizComponent {
               this.toastService.add('Fail to load questions!');
             }
           },
-          error: (err) => {
-            if (err.error.statusCode === 401) {
-              this.storageService.logOut();
-              this.toastService.add('Session expired!');
-              this.router.navigate(['/login']);
-            }
-          },
         });
     }
   }

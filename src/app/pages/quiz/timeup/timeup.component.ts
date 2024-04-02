@@ -34,13 +34,6 @@ export class TimeupComponent {
           this.toastService.add('Fail to submit answer!');
         }
       },
-      error: (err) => {
-        if (err.error.statusCode === 401) {
-          this.storageService.logOut();
-          this.toastService.add('Session expired!');
-          this.router.navigate(['/login']);
-        }
-      },
     });
   }
 }

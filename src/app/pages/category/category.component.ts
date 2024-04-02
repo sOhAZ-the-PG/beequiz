@@ -33,13 +33,6 @@ export class CategoryComponent {
           this.toastService.add('Fail to load category!');
         }
       },
-      error: (err) => {
-        if (err.error.statusCode === 401) {
-          this.storageService.logOut();
-          this.toastService.add('Session expired!');
-          this.router.navigate(['/login']);
-        }
-      },
     });
   }
 
