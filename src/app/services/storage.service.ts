@@ -37,6 +37,10 @@ export class StorageService {
     return sessionStorage.getItem(StorageService.USER_KEY) !== null;
   }
 
+  public logOut(): void {
+    sessionStorage.removeItem(StorageService.USER_KEY);
+  }
+
   public saveCategory(category: any): void {
     sessionStorage.removeItem(StorageService.CATEGORY_KEY);
     sessionStorage.setItem(

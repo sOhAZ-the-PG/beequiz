@@ -87,6 +87,13 @@ export class QuizComponent {
               this.toastService.add('Fail to load questions!');
             }
           },
+          error: (err) => {
+            if (err.error.statusCode === 401) {
+              this.storageService.logOut();
+              this.toastService.add('Session expired!');
+              this.router.navigate(['/login']);
+            }
+          },
         });
     }
   }
@@ -192,7 +199,13 @@ export class QuizComponent {
             this.toastService.add('Fail to submit answer!');
           }
         },
-        error: (err) => {},
+        error: (err) => {
+          if (err.error.statusCode === 401) {
+            this.storageService.logOut();
+            this.toastService.add('Session expired!');
+            this.router.navigate(['/login']);
+          }
+        },
       });
     } else {
       this.storageService.saveAnswer(this.currentQuiz - 1, this.selectedAnswer);
